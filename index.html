@@ -1,1 +1,1799 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#E8690A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FL Stratégimmo">
+<meta name="description" content="FL Stratégimmo – Conseil en investissement immobilier locatif. Simulateur rendement, estimation, données marché. Lens, Arras, Artois, Bassin minier.">
+<meta name="keywords" content="investissement immobilier Lens, immeuble de rapport Arras, rendement locatif Bassin minier, FL Stratégimmo">
+<meta property="og:title" content="FL Stratégimmo – Outils Investissement Immobilier">
+<meta property="og:description" content="Simulateur de rendement, estimation, données DVF – Zone Artois Bassin minier">
+<meta property="og:type" content="website">
+<title>FL Stratégimmo – Outils Investissement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8690A;
+    --orange-light: #FF7A1A;
+    --orange-dark: #C45600;
+    --dark: #1A1A1A;
+    --grey: #3A3A3A;
+    --grey-mid: #6B6B6B;
+    --grey-light: #F0EDE8;
+    --grey-ultra: #F8F6F3;
+    --white: #FFFFFF;
+    --border: rgba(232,105,10,0.15);
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-heavy: 0 12px 48px rgba(232,105,10,0.18);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --nav-h: 62px;
+    --header-h: 72px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%; overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--grey-ultra);
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HEADER ─── */
+  .app-header {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  }
+  .logo-wrap { display: flex; align-items: center; gap: 10px; }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--orange);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; color: white; letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+  .logo-text { line-height: 1.1; }
+  .logo-text .brand { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: white; letter-spacing: 2px; }
+  .logo-text .tagline { font-size: 9px; color: var(--orange); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; }
+  .header-badge {
+    background: var(--orange); color: white;
+    font-size: 9px; font-weight: 600; letter-spacing: 1px;
+    padding: 4px 8px; border-radius: 20px; text-transform: uppercase;
+  }
+
+  /* ─── SCROLL AREA ─── */
+  .app-body {
+    position: fixed;
+    top: var(--header-h); bottom: var(--nav-h);
+    left: 0; right: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ─── TABS CONTENT ─── */
+  .tab-panel { display: none; padding: 20px 16px 32px; min-height: 100%; }
+  .tab-panel.active { display: block; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SECTION TITLES ─── */
+  .section-hero {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--grey) 100%);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin-bottom: 20px;
+    position: relative; overflow: hidden;
+  }
+  .section-hero::before {
+    content: '';
+    position: absolute; top: -20px; right: -20px;
+    width: 120px; height: 120px;
+    background: var(--orange); opacity: 0.12;
+    border-radius: 50%;
+  }
+  .section-hero .eyebrow {
+    font-size: 10px; font-weight: 600; letter-spacing: 2px;
+    color: var(--orange); text-transform: uppercase; margin-bottom: 6px;
+  }
+  .section-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px; color: white; line-height: 1.15; margin-bottom: 6px;
+  }
+  .section-hero p { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px; color: var(--dark);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title .icon {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+
+  /* ─── FORM ELEMENTS ─── */
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block; font-size: 11px; font-weight: 600;
+    color: var(--grey-mid); text-transform: uppercase; letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid #E8E4DF;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; color: var(--dark);
+    background: var(--grey-ultra);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(232,105,10,0.12);
+    background: white;
+  }
+  .field textarea { min-height: 100px; resize: vertical; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* ─── SLIDER ─── */
+  .slider-wrap { position: relative; padding-top: 4px; }
+  .slider-val {
+    position: absolute; right: 0; top: -4px;
+    font-size: 16px; font-weight: 600; color: var(--orange);
+  }
+  input[type="range"] {
+    width: 100%; height: 4px; -webkit-appearance: none; appearance: none;
+    background: linear-gradient(to right, var(--orange) 0%, var(--orange) var(--pct, 50%), #E8E4DF var(--pct, 50%), #E8E4DF 100%);
+    border-radius: 4px; outline: none; cursor: pointer;
+    margin: 8px 0;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 22px; height: 22px;
+    background: var(--orange);
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(232,105,10,0.4);
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    display: block; width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+    color: white; border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer; text-align: center;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(232,105,10,0.35);
+    letter-spacing: 0.3px;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--orange);
+    color: var(--orange);
+    box-shadow: none;
+  }
+  .btn-sm { padding: 10px 16px; font-size: 13px; }
+
+  /* ─── RESULT BOX ─── */
+  .result-box {
+    background: linear-gradient(135deg, var(--dark), var(--grey));
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 6px;
+  }
+  .result-box .result-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 4px;
+  }
+  .result-box .result-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px; color: var(--orange); line-height: 1;
+  }
+  .result-box .result-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .result-item {
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 12px;
+  }
+  .result-item .ri-label { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.8px; }
+  .result-item .ri-val { font-size: 18px; font-weight: 700; color: white; margin-top: 2px; }
+  .result-item .ri-val.accent { color: var(--orange); }
+
+  /* ─── GAUGE ─── */
+  .gauge-wrap { text-align: center; padding: 10px 0 0; }
+  .gauge-track {
+    width: 100%; height: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px; overflow: hidden; margin: 8px 0;
+  }
+  .gauge-fill {
+    height: 100%; border-radius: 10px;
+    background: linear-gradient(90deg, #E8690A, #FF9A3A);
+    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .gauge-labels { display: flex; justify-content: space-between; font-size: 10px; color: rgba(255,255,255,0.35); }
+
+  /* ─── ALERT / BADGES ─── */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .badge {
+    padding: 5px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+    background: rgba(232,105,10,0.12); color: var(--orange);
+  }
+  .badge.green { background: rgba(34,197,94,0.12); color: #16a34a; }
+  .badge.red { background: rgba(239,68,68,0.12); color: #dc2626; }
+
+  .info-band {
+    background: rgba(232,105,10,0.08);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 12px; color: var(--grey);
+    margin: 12px 0; line-height: 1.5;
+  }
+
+  /* ─── DVF LINKS ─── */
+  .dvf-link {
+    display: flex; align-items: center; justify-content: space-between;
+    background: white; border-radius: var(--radius-sm);
+    padding: 16px; margin-bottom: 10px;
+    border: 1.5px solid var(--border);
+    text-decoration: none; color: var(--dark);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .dvf-link:active { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(232,105,10,0.1); }
+  .dvf-link .dl-icon { font-size: 24px; margin-right: 12px; }
+  .dvf-link .dl-info { flex: 1; }
+  .dvf-link .dl-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+  .dvf-link .dl-desc { font-size: 11px; color: var(--grey-mid); }
+  .dvf-link .dl-arrow { color: var(--orange); font-size: 18px; }
+  .zone-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+  .zone-chip {
+    padding: 6px 12px; border-radius: 20px;
+    border: 1.5px solid var(--border);
+    font-size: 12px; font-weight: 500; color: var(--grey);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .zone-chip.active, .zone-chip:active {
+    background: var(--orange); color: white; border-color: var(--orange);
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-card {
+    background: linear-gradient(135deg, var(--dark), var(--grey));
+    border-radius: var(--radius);
+    padding: 20px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .contact-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: white;
+    flex-shrink: 0;
+  }
+  .contact-info .name { font-weight: 600; color: white; font-size: 15px; }
+  .contact-info .role { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .contact-info .coords { font-size: 12px; color: var(--orange); margin-top: 6px; }
+  .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .qa-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 16px 12px; background: white; border-radius: var(--radius-sm);
+    text-decoration: none; color: var(--dark);
+    border: 1.5px solid rgba(0,0,0,0.06);
+    font-size: 12px; font-weight: 500; gap: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.15s;
+  }
+  .qa-btn:active { background: var(--orange); color: white; border-color: var(--orange); }
+  .qa-btn .qa-icon { font-size: 22px; }
+  .form-sent {
+    text-align: center; padding: 20px;
+    display: none;
+  }
+  .form-sent .check { font-size: 48px; margin-bottom: 10px; }
+  .form-sent p { color: var(--grey-mid); font-size: 14px; }
+
+  /* ─── BOTTOM NAV ─── */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    background: white;
+    border-top: 1px solid #EDEAE4;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    z-index: 100;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .bottom-nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex: 0 0 auto;
+    min-width: 72px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 3px; border: none; background: none;
+    cursor: pointer; padding: 6px 8px;
+    transition: all 0.2s; color: #AAAA9E;
+    -webkit-tap-highlight-color: transparent;
+    scroll-snap-align: start;
+  }
+  .nav-btn .nav-icon { font-size: 20px; transition: transform 0.2s; }
+  .nav-btn .nav-label { font-size: 8.5px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; white-space: nowrap; }
+  .nav-btn.active { color: var(--orange); }
+  .nav-btn.active .nav-icon { transform: scale(1.15); }
+  .nav-btn.active .nav-label { color: var(--orange); }
+
+  /* ─── INSTALL BANNER ─── */
+  #install-banner {
+    position: fixed; top: var(--header-h); left: 0; right: 0;
+    background: var(--orange);
+    padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 90; display: none;
+  }
+  #install-banner p { font-size: 12px; font-weight: 600; color: white; }
+  #install-banner button {
+    background: white; color: var(--orange);
+    border: none; border-radius: 20px;
+    padding: 6px 14px; font-size: 12px; font-weight: 700;
+    cursor: pointer;
+  }
+  #install-close { background: none !important; color: rgba(255,255,255,0.7) !important; font-size: 16px; }
+
+  /* ─── UTILS ─── */
+  .mt-2 { margin-top: 8px; }
+  .mb-0 { margin-bottom: 0; }
+  .text-xs { font-size: 11px; color: var(--grey-mid); }
+  .separator { border: none; border-top: 1px solid #EEE; margin: 16px 0; }
+
+  /* ─── CALCULATRICE ─── */
+  .calc-screen {
+    background: var(--dark);
+    border-radius: var(--radius);
+    padding: 20px 20px 14px;
+    margin-bottom: 14px;
+    text-align: right;
+  }
+  .calc-history { font-size: 13px; color: rgba(255,255,255,0.35); min-height: 20px; word-break: break-all; }
+  .calc-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px; color: white; line-height: 1.1;
+    word-break: break-all; letter-spacing: 1px;
+  }
+  .calc-mode-tabs {
+    display: flex; gap: 6px; margin-bottom: 10px;
+  }
+  .calc-mode-tab {
+    flex: 1; padding: 8px; border-radius: 8px;
+    border: 1.5px solid var(--border);
+    font-size: 11px; font-weight: 600; color: var(--grey-mid);
+    background: white; cursor: pointer; text-align: center;
+    transition: all 0.15s;
+  }
+  .calc-mode-tab.active { background: var(--orange); color: white; border-color: var(--orange); }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .calc-btn {
+    aspect-ratio: 1.1;
+    border-radius: 12px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px; font-weight: 500;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.1s, opacity 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .calc-btn:active { transform: scale(0.93); opacity: 0.85; }
+  .calc-btn.num { background: white; color: var(--dark); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .calc-btn.op  { background: #F0EDE8; color: var(--orange); font-weight: 700; font-size: 20px; }
+  .calc-btn.fn  { background: #E8E4DF; color: var(--grey); font-size: 14px; font-weight: 600; }
+  .calc-btn.eq  { background: linear-gradient(135deg, var(--orange), var(--orange-dark)); color: white; font-size: 24px; box-shadow: 0 4px 12px rgba(232,105,10,0.35); }
+  .calc-btn.zero { grid-column: span 2; aspect-ratio: auto; padding: 0 24px; justify-content: flex-start; }
+
+  /* ─── FINANCEMENT ─── */
+  .fin-mode-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .fin-mode-tab {
+    flex: 1; min-width: 80px; padding: 9px 6px;
+    border-radius: 8px; border: 1.5px solid var(--border);
+    font-size: 10px; font-weight: 600; color: var(--grey-mid);
+    background: white; cursor: pointer; text-align: center;
+    transition: all 0.15s; letter-spacing: 0.3px;
+  }
+  .fin-mode-tab.active { background: var(--orange); color: white; border-color: var(--orange); }
+  .amort-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
+  .amort-table th {
+    background: var(--dark); color: white;
+    padding: 7px 6px; text-align: right; font-weight: 600;
+    font-size: 10px; letter-spacing: 0.5px;
+  }
+  .amort-table th:first-child { text-align: left; }
+  .amort-table td { padding: 6px; border-bottom: 1px solid #F0EDE8; text-align: right; }
+  .amort-table td:first-child { text-align: left; font-weight: 600; color: var(--grey-mid); }
+  .amort-table tr:nth-child(even) td { background: var(--grey-ultra); }
+
+  /* scrollbar */
+  .app-body::-webkit-scrollbar { width: 3px; }
+  .app-body::-webkit-scrollbar-thumb { background: var(--orange); opacity: 0.5; border-radius: 3px; }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="logo-wrap">
+    <div class="logo-icon">FL</div>
+    <div class="logo-text">
+      <div class="brand">Stratégimmo</div>
+      <div class="tagline">Investissement Locatif</div>
+    </div>
+  </div>
+  <div class="header-badge">Artois · Bassin minier</div>
+</header>
+
+<!-- INSTALL BANNER -->
+<div id="install-banner">
+  <p>📲 Installer l'app sur votre téléphone</p>
+  <button id="install-btn">Installer</button>
+  <button id="install-close">✕</button>
+</div>
+
+<!-- BODY -->
+<main class="app-body">
+
+  <!-- ═══ TAB 1 : SIMULATEUR ═══ -->
+  <section class="tab-panel active" id="tab-simu">
+    <div class="section-hero">
+      <div class="eyebrow">📊 Outil n°1</div>
+      <h1>Simulateur<br><em>Rendement locatif</em></h1>
+      <p>Calculez la rentabilité brute & nette de votre investissement en temps réel.</p>
+    </div>
+
+    <!-- Acquisition -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🏠</span> Acquisition</div>
+      <div class="field">
+        <label>Prix d'achat</label>
+        <div class="slider-wrap">
+          <span class="slider-val" id="val-prix">80 000 €</span>
+          <input type="range" id="sl-prix" min="30000" max="500000" step="5000" value="80000">
+        </div>
+      </div>
+      <div class="field">
+        <label>Frais de notaire estimés</label>
+        <div class="slider-wrap">
+          <span class="slider-val" id="val-notaire">3 %</span>
+          <input type="range" id="sl-notaire" min="2" max="10" step="0.5" value="3">
+        </div>
+      </div>
+      <div class="field">
+        <label>Travaux de rénovation</label>
+        <div class="slider-wrap">
+          <span class="slider-val" id="val-travaux">0 €</span>
+          <input type="range" id="sl-travaux" min="0" max="100000" step="1000" value="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenus -->
+    <div class="card">
+      <div class="card-title"><span class="icon">💶</span> Revenus locatifs</div>
+      <div class="field">
+        <label>Loyer mensuel charges comprises</label>
+        <div class="slider-wrap">
+          <span class="slider-val" id="val-loyer">700 €</span>
+          <input type="range" id="sl-loyer" min="200" max="5000" step="50" value="700">
+        </div>
+      </div>
+      <div class="field">
+        <label>Vacance locative estimée</label>
+        <div class="slider-wrap">
+          <span class="slider-val" id="val-vacance">1 mois/an</span>
+          <input type="range" id="sl-vacance" min="0" max="3" step="0.5" value="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- Charges -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> Charges annuelles</div>
+      <div class="field-row">
+        <div class="field">
+          <label>Taxe foncière</label>
+          <input type="number" id="inp-tf" value="600" placeholder="600">
+        </div>
+        <div class="field">
+          <label>Charges copro</label>
+          <input type="number" id="inp-copro" value="400" placeholder="400">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Assurance PNO</label>
+          <input type="number" id="inp-assurance" value="200" placeholder="200">
+        </div>
+        <div class="field">
+          <label>Gestion agence</label>
+          <input type="number" id="inp-gestion" value="0" placeholder="0">
+        </div>
+      </div>
+      <button class="btn" onclick="calculerRendement()">⚡ Calculer le rendement</button>
+    </div>
+
+    <!-- Résultat -->
+    <div class="result-box" id="result-simu" style="display:none">
+      <div class="result-label">Rentabilité brute</div>
+      <div class="result-big" id="r-brut">0 %</div>
+      <div class="result-sub" id="r-brut-sub"></div>
+      <div class="gauge-wrap">
+        <div class="gauge-track"><div class="gauge-fill" id="r-gauge"></div></div>
+        <div class="gauge-labels"><span>0%</span><span>5% seuil</span><span>10%</span><span>15%+</span></div>
+      </div>
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="ri-label">Coût total</div>
+          <div class="ri-val" id="r-cout"></div>
+        </div>
+        <div class="result-item">
+          <div class="ri-label">Loyers annuels</div>
+          <div class="ri-val" id="r-loyers-an"></div>
+        </div>
+        <div class="result-item">
+          <div class="ri-label">Charges totales</div>
+          <div class="ri-val" id="r-charges"></div>
+        </div>
+        <div class="result-item">
+          <div class="ri-label">Rentabilité nette</div>
+          <div class="ri-val accent" id="r-net"></div>
+        </div>
+      </div>
+      <div class="badge-row" id="r-badges"></div>
+    </div>
+
+    <div class="info-band mt-2">
+      💡 Zone Artois – Bassin minier : des rendements bruts entre <strong>6 % et 12 %</strong> sont atteignables sur les immeubles de rapport. Contactez FL Stratégimmo pour une analyse personnalisée.
+    </div>
+  </section>
+
+  <!-- ═══ TAB 2 : ESTIMATION ═══ -->
+  <section class="tab-panel" id="tab-estim">
+    <div class="section-hero">
+      <div class="eyebrow">🏡 Outil n°2</div>
+      <h1>Estimation<br><em>de bien</em></h1>
+      <p>Obtenez une fourchette de valeur marché pour votre bien dans le Bassin minier.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📍</span> Localisation</div>
+      <div class="field">
+        <label>Ville / Commune</label>
+        <select id="est-ville">
+          <option value="lens">Lens (62300)</option>
+          <option value="liévin">Liévin (62800)</option>
+          <option value="hénin-beaumont">Hénin-Beaumont (62110)</option>
+          <option value="arras">Arras (62000)</option>
+          <option value="béthune">Béthune (62400)</option>
+          <option value="bruay">Bruay-la-Buissière (62700)</option>
+          <option value="carvin">Carvin (62220)</option>
+          <option value="sallaumines">Sallaumines (62430)</option>
+          <option value="noyelles">Noyelles-sous-Lens (62221)</option>
+          <option value="autre">Autre commune</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🏗️</span> Caractéristiques</div>
+      <div class="field">
+        <label>Type de bien</label>
+        <select id="est-type">
+          <option value="appart">Appartement</option>
+          <option value="maison">Maison</option>
+          <option value="immeuble">Immeuble de rapport</option>
+          <option value="local">Local commercial</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Surface (m²)</label>
+          <input type="number" id="est-surface" value="80" min="10" max="2000">
+        </div>
+        <div class="field">
+          <label>Nb pièces</label>
+          <input type="number" id="est-pieces" value="3" min="1" max="20">
+        </div>
+      </div>
+      <div class="field">
+        <label>État général</label>
+        <select id="est-etat">
+          <option value="top">Excellent / Rénové récemment</option>
+          <option value="bon">Bon état</option>
+          <option value="moyen" selected>État moyen / À rafraîchir</option>
+          <option value="travaux">Travaux importants</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Année de construction</label>
+        <select id="est-periode">
+          <option value="recent">Après 1990</option>
+          <option value="70-90">1970 – 1990</option>
+          <option value="50-70" selected>1950 – 1970 (minier)</option>
+          <option value="avant50">Avant 1950</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💰</span> Si locatif (optionnel)</div>
+      <div class="field">
+        <label>Loyer mensuel actuel / estimé (€)</label>
+        <input type="number" id="est-loyer" placeholder="Ex: 600" min="0">
+      </div>
+    </div>
+
+    <button class="btn" onclick="estimerBien()">🔎 Estimer le bien</button>
+
+    <div id="result-estim" style="display:none; margin-top:14px">
+      <div class="result-box">
+        <div class="result-label">Fourchette d'estimation</div>
+        <div class="result-big" id="est-val-mid" style="font-size:36px; line-height:1.1">–</div>
+        <div class="result-sub" id="est-val-range"></div>
+        <div class="result-grid">
+          <div class="result-item">
+            <div class="ri-label">Prix bas</div>
+            <div class="ri-val" id="est-bas"></div>
+          </div>
+          <div class="result-item">
+            <div class="ri-label">Prix haut</div>
+            <div class="ri-val accent" id="est-haut"></div>
+          </div>
+          <div class="result-item">
+            <div class="ri-label">Prix/m²</div>
+            <div class="ri-val" id="est-m2"></div>
+          </div>
+          <div class="result-item">
+            <div class="ri-label">Rendement estimé</div>
+            <div class="ri-val accent" id="est-rdt">–</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-band">
+        ⚠️ Cette estimation est fournie à titre indicatif sur la base des données de marché du Bassin minier / Artois. Pour une estimation précise et certifiée, contactez FL Stratégimmo.
+      </div>
+      <button class="btn mt-2" onclick="goTab('tab-contact')">📞 Demander une estimation officielle</button>
+    </div>
+  </section>
+
+  <!-- ═══ TAB 3 : DVF / DONNÉES MARCHÉ ═══ -->
+  <section class="tab-panel" id="tab-dvf">
+    <div class="section-hero">
+      <div class="eyebrow">📈 Outil n°3</div>
+      <h1>Données marché<br><em>DVF & prix/m²</em></h1>
+      <p>Accédez aux ventes réelles enregistrées et aux prix du marché dans votre zone.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🗺️</span> Choisissez votre zone</div>
+      <div class="zone-chips" id="zone-chips">
+        <span class="zone-chip active" onclick="selectZone(this,'lens')">Lens</span>
+        <span class="zone-chip" onclick="selectZone(this,'liévin')">Liévin</span>
+        <span class="zone-chip" onclick="selectZone(this,'arras')">Arras</span>
+        <span class="zone-chip" onclick="selectZone(this,'hénin-beaumont')">Hénin-Beaumont</span>
+        <span class="zone-chip" onclick="selectZone(this,'béthune')">Béthune</span>
+        <span class="zone-chip" onclick="selectZone(this,'bruay')">Bruay</span>
+        <span class="zone-chip" onclick="selectZone(this,'carvin')">Carvin</span>
+      </div>
+    </div>
+
+    <!-- Prix de référence -->
+    <div class="card" id="dvf-prix-card">
+      <div class="card-title"><span class="icon">📊</span> Prix marché estimés <span id="dvf-ville-label">– Lens</span></div>
+      <div id="dvf-data"></div>
+    </div>
+
+    <!-- Liens DVF officiels -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🔗</span> Sources officielles DVF</div>
+      <a class="dvf-link" href="https://app.dvf.etalab.gouv.fr/" target="_blank" rel="noopener">
+        <span class="dl-icon">🏛️</span>
+        <div class="dl-info">
+          <div class="dl-title">DVF Étalab – Carte des ventes</div>
+          <div class="dl-desc">Toutes les mutations immobilières géolocalisées depuis 2014</div>
+        </div>
+        <span class="dl-arrow">→</span>
+      </a>
+      <a class="dvf-link" href="https://explore.data.gouv.fr/fr/datasets/5c4ae55a634f4117716d5656/" target="_blank" rel="noopener">
+        <span class="dl-icon">📂</span>
+        <div class="dl-info">
+          <div class="dl-title">Data.gouv.fr – Fichier DVF brut</div>
+          <div class="dl-desc">Téléchargement des données brutes par département</div>
+        </div>
+        <span class="dl-arrow">→</span>
+      </a>
+      <a class="dvf-link" href="https://www.meilleursagents.com/prix-immobilier/lens-62300/" target="_blank" rel="noopener">
+        <span class="dl-icon">📉</span>
+        <div class="dl-info">
+          <div class="dl-title">MeilleursAgents – Prix Lens</div>
+          <div class="dl-desc">Évolution des prix et tendances du marché lensois</div>
+        </div>
+        <span class="dl-arrow">→</span>
+      </a>
+      <a class="dvf-link" href="https://www.notaires.fr/fr/immobilier-fiscalite/prix-et-tendances-de-limmobilier" target="_blank" rel="noopener">
+        <span class="dl-icon">⚖️</span>
+        <div class="dl-info">
+          <div class="dl-title">Notaires de France – Baromètre</div>
+          <div class="dl-desc">Prix officiels et statistiques notariales</div>
+        </div>
+        <span class="dl-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="info-band">
+      💡 Les données DVF sont issues des actes notariés. FL Stratégimmo vous aide à les interpréter dans le contexte local du Bassin minier. <strong>Contactez-nous pour une analyse complète de marché.</strong>
+    </div>
+  </section>
+
+  <!-- ═══ TAB 4 : CONTACT ═══ -->
+  <section class="tab-panel" id="tab-contact">
+    <div class="section-hero">
+      <div class="eyebrow">📞 Outil n°4</div>
+      <h1>Contactez<br><em>FL Stratégimmo</em></h1>
+      <p>Votre conseiller en investissement locatif sur Lens, Arras et tout l'Artois.</p>
+    </div>
+
+    <!-- Carte contact -->
+    <div class="contact-card">
+      <div class="contact-avatar">F</div>
+      <div class="contact-info">
+        <div class="name">Fabrice Linglart</div>
+        <div class="role">Gérant – Conseil en investissement immobilier</div>
+        <div class="coords">17 Rue Marcellin Berthelot · Lens 62300</div>
+      </div>
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="quick-actions">
+      <a class="qa-btn" href="tel:+33767509295">
+        <span class="qa-icon">📞</span>
+        Appeler
+      </a>
+      <a class="qa-btn" href="mailto:contact@flstrategimmo.com">
+        <span class="qa-icon">✉️</span>
+        E-mail
+      </a>
+      <a class="qa-btn" href="https://wa.me/33767509295" target="_blank" rel="noopener">
+        <span class="qa-icon">💬</span>
+        WhatsApp
+      </a>
+      <a class="qa-btn" href="https://www.flstrategimmo.fr" target="_blank" rel="noopener">
+        <span class="qa-icon">🌐</span>
+        Site web
+      </a>
+    </div>
+
+    <!-- Formulaire -->
+    <div class="card" id="form-card">
+      <div class="card-title"><span class="icon">📝</span> Demande de rappel / RDV</div>
+      <div class="field">
+        <label>Nom complet *</label>
+        <input type="text" id="f-nom" placeholder="Votre nom et prénom">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Téléphone *</label>
+          <input type="tel" id="f-tel" placeholder="06…">
+        </div>
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" id="f-email" placeholder="votre@email.fr">
+        </div>
+      </div>
+      <div class="field">
+        <label>Sujet</label>
+        <select id="f-sujet">
+          <option value="conseil">Conseil en investissement</option>
+          <option value="estimation">Estimation de bien</option>
+          <option value="achat">Recherche d'un immeuble</option>
+          <option value="vente">Vendre mon bien</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Message</label>
+        <textarea id="f-msg" placeholder="Décrivez votre projet, votre budget, votre zone géographique…"></textarea>
+      </div>
+      <div class="text-xs" style="margin-bottom:12px">* Champs obligatoires · Données transmises uniquement à FL Stratégimmo</div>
+      <button class="btn" onclick="envoyerFormulaire()">📤 Envoyer ma demande</button>
+    </div>
+
+    <div class="form-sent" id="form-sent">
+      <div class="check">✅</div>
+      <strong style="font-size:16px">Demande envoyée !</strong>
+      <p style="margin-top:8px">FL Stratégimmo vous recontactera dans les plus brefs délais.<br>Merci de votre confiance.</p>
+      <button class="btn mt-2" onclick="resetForm()" style="max-width:200px; margin:16px auto 0">Nouvelle demande</button>
+    </div>
+
+    <!-- Réseaux -->
+    <div class="card mb-0">
+      <div class="card-title"><span class="icon">🔗</span> Réseaux sociaux</div>
+      <div class="quick-actions" style="grid-template-columns: 1fr 1fr 1fr;">
+        <a class="qa-btn" href="https://www.facebook.com/profile.php?id=61559328194146" target="_blank">
+          <span class="qa-icon">👥</span>Facebook
+        </a>
+        <a class="qa-btn" href="https://www.instagram.com/flstrategimmo/" target="_blank">
+          <span class="qa-icon">📸</span>Instagram
+        </a>
+        <a class="qa-btn" href="http://linkedin.com/in/fabricelinglart" target="_blank">
+          <span class="qa-icon">💼</span>LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ TAB 5 : CALCULATRICE ═══ -->
+  <section class="tab-panel" id="tab-calc">
+    <div class="section-hero">
+      <div class="eyebrow">🔢 Outil n°5</div>
+      <h1>Calculatrice<br><em>immobilière</em></h1>
+      <p>Calculatrice standard + fonctions métier : TVA, frais notaire, commission, m².</p>
+    </div>
+
+    <div class="calc-mode-tabs">
+      <div class="calc-mode-tab active" onclick="setCalcMode('std',this)">Standard</div>
+      <div class="calc-mode-tab" onclick="setCalcMode('tva',this)">TVA</div>
+      <div class="calc-mode-tab" onclick="setCalcMode('notaire',this)">Notaire</div>
+      <div class="calc-mode-tab" onclick="setCalcMode('m2',this)">Prix/m²</div>
+    </div>
+
+    <!-- Écran -->
+    <div class="calc-screen">
+      <div class="calc-history" id="calc-history"></div>
+      <div class="calc-display" id="calc-display">0</div>
+    </div>
+
+    <!-- Clavier standard -->
+    <div id="calc-std-pad">
+      <div class="calc-grid">
+        <button class="calc-btn fn" onclick="calcFn('clear')">C</button>
+        <button class="calc-btn fn" onclick="calcFn('sign')">+/-</button>
+        <button class="calc-btn fn" onclick="calcFn('pct')">%</button>
+        <button class="calc-btn op" onclick="calcOp('/')">÷</button>
+
+        <button class="calc-btn num" onclick="calcNum('7')">7</button>
+        <button class="calc-btn num" onclick="calcNum('8')">8</button>
+        <button class="calc-btn num" onclick="calcNum('9')">9</button>
+        <button class="calc-btn op" onclick="calcOp('*')">×</button>
+
+        <button class="calc-btn num" onclick="calcNum('4')">4</button>
+        <button class="calc-btn num" onclick="calcNum('5')">5</button>
+        <button class="calc-btn num" onclick="calcNum('6')">6</button>
+        <button class="calc-btn op" onclick="calcOp('-')">−</button>
+
+        <button class="calc-btn num" onclick="calcNum('1')">1</button>
+        <button class="calc-btn num" onclick="calcNum('2')">2</button>
+        <button class="calc-btn num" onclick="calcNum('3')">3</button>
+        <button class="calc-btn op" onclick="calcOp('+')">+</button>
+
+        <button class="calc-btn num zero" onclick="calcNum('0')">0</button>
+        <button class="calc-btn num" onclick="calcNum('.')">.</button>
+        <button class="calc-btn eq" onclick="calcEq()">=</button>
+      </div>
+    </div>
+
+    <!-- Mode TVA -->
+    <div id="calc-tva-pad" style="display:none">
+      <div class="card">
+        <div class="card-title"><span class="icon">💶</span> Calcul TVA</div>
+        <div class="field">
+          <label>Montant HT (€)</label>
+          <input type="number" id="tva-ht" placeholder="Ex: 100000" oninput="calcTVA()">
+        </div>
+        <div class="field">
+          <label>Taux TVA</label>
+          <select id="tva-taux" onchange="calcTVA()">
+            <option value="20">20 % (normal)</option>
+            <option value="10">10 % (réduit)</option>
+            <option value="5.5">5.5 % (réduit logement)</option>
+            <option value="2.1">2.1 % (super réduit)</option>
+          </select>
+        </div>
+        <div id="tva-result" style="display:none">
+          <div class="result-grid" style="margin-top:0">
+            <div class="result-item" style="background:var(--grey-ultra);color:var(--dark)">
+              <div class="ri-label" style="color:var(--grey-mid)">Montant TVA</div>
+              <div class="ri-val" id="tva-montant" style="color:var(--orange)"></div>
+            </div>
+            <div class="result-item" style="background:var(--grey-ultra);color:var(--dark)">
+              <div class="ri-label" style="color:var(--grey-mid)">Montant TTC</div>
+              <div class="ri-val" id="tva-ttc" style="color:var(--dark)"></div>
+            </div>
+          </div>
+        </div>
+        <hr class="separator">
+        <div class="field">
+          <label>Montant TTC (€) → retrouver HT</label>
+          <input type="number" id="tva-ttc-in" placeholder="Ex: 120000" oninput="calcTVAInv()">
+        </div>
+        <div id="tva-inv-result" style="display:none">
+          <div class="result-grid" style="margin-top:0">
+            <div class="result-item" style="background:var(--grey-ultra)">
+              <div class="ri-label" style="color:var(--grey-mid)">Montant HT</div>
+              <div class="ri-val" id="tva-ht-out" style="color:var(--orange)"></div>
+            </div>
+            <div class="result-item" style="background:var(--grey-ultra)">
+              <div class="ri-label" style="color:var(--grey-mid)">TVA déduite</div>
+              <div class="ri-val" id="tva-déduite" style="color:var(--dark)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode Notaire -->
+    <div id="calc-notaire-pad" style="display:none">
+      <div class="card">
+        <div class="card-title"><span class="icon">⚖️</span> Frais de notaire</div>
+        <div class="field">
+          <label>Prix du bien (€)</label>
+          <input type="number" id="not-prix" placeholder="Ex: 150000" oninput="calcNotaire()">
+        </div>
+        <div class="field">
+          <label>Type de bien</label>
+          <select id="not-type" onchange="calcNotaire()">
+            <option value="ancien">Ancien (~ 7-8 %)</option>
+            <option value="neuf">Neuf (~ 2-3 %)</option>
+            <option value="terrain">Terrain (~ 7-8 %)</option>
+          </select>
+        </div>
+        <div id="not-result" style="display:none">
+          <div class="result-box" style="margin-top:8px">
+            <div class="result-label">Frais de notaire estimés</div>
+            <div class="result-big" id="not-frais" style="font-size:36px"></div>
+            <div class="result-grid">
+              <div class="result-item"><div class="ri-label">Taux estimé</div><div class="ri-val" id="not-taux"></div></div>
+              <div class="result-item"><div class="ri-label">Coût total</div><div class="ri-val accent" id="not-total"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode Prix/m² -->
+    <div id="calc-m2-pad" style="display:none">
+      <div class="card">
+        <div class="card-title"><span class="icon">📐</span> Calculatrice prix au m²</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Prix total (€)</label>
+            <input type="number" id="m2-prix" placeholder="Ex: 120000" oninput="calcM2()">
+          </div>
+          <div class="field">
+            <label>Surface (m²)</label>
+            <input type="number" id="m2-surf" placeholder="Ex: 85" oninput="calcM2()">
+          </div>
+        </div>
+        <div id="m2-result" style="display:none">
+          <div class="result-box" style="margin-top:4px">
+            <div class="result-label">Prix au m²</div>
+            <div class="result-big" id="m2-val" style="font-size:40px"></div>
+          </div>
+        </div>
+        <hr class="separator">
+        <div class="card-title" style="margin-bottom:12px"><span class="icon">🔄</span> Retrouver le prix ou la surface</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Prix/m² connu</label>
+            <input type="number" id="m2-pm2" placeholder="Ex: 1400" oninput="calcM2Rev()">
+          </div>
+          <div class="field">
+            <label>Surface (m²)</label>
+            <input type="number" id="m2-surf2" placeholder="Ex: 85" oninput="calcM2Rev()">
+          </div>
+        </div>
+        <div id="m2-rev-result" style="display:none">
+          <div class="info-band">Prix estimé : <strong id="m2-prix-calc"></strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TAB 6 : FINANCEMENT ═══ -->
+  <section class="tab-panel" id="tab-fin">
+    <div class="section-hero">
+      <div class="eyebrow">🏦 Outil n°6</div>
+      <h1>Simulateur<br><em>de financement</em></h1>
+      <p>Mensualité, capacité d'emprunt, taux, tableau d'amortissement.</p>
+    </div>
+
+    <div class="fin-mode-tabs">
+      <div class="fin-mode-tab active" onclick="setFinMode('mensualite',this)">Mensualité</div>
+      <div class="fin-mode-tab" onclick="setFinMode('capacite',this)">Capacité</div>
+      <div class="fin-mode-tab" onclick="setFinMode('taux',this)">Taux</div>
+      <div class="fin-mode-tab" onclick="setFinMode('amort',this)">Amortissement</div>
+    </div>
+
+    <!-- MODE : MENSUALITÉ -->
+    <div id="fin-mensualite">
+      <div class="card">
+        <div class="card-title"><span class="icon">💰</span> Calcul de mensualité</div>
+        <div class="field">
+          <label>Montant emprunté (€)</label>
+          <input type="number" id="m-capital" value="150000" placeholder="150000" oninput="calcMensualite()">
+        </div>
+        <div class="field">
+          <label>Taux annuel (%)</label>
+          <input type="number" id="m-taux" value="3.5" step="0.05" placeholder="3.5" oninput="calcMensualite()">
+        </div>
+        <div class="field">
+          <label>Durée (années)</label>
+          <div class="slider-wrap">
+            <span class="slider-val" id="m-duree-val">20 ans</span>
+            <input type="range" id="m-duree" min="5" max="30" step="1" value="20" oninput="updDuree();calcMensualite()">
+          </div>
+        </div>
+        <div class="field">
+          <label>Assurance mensuelle (€)</label>
+          <input type="number" id="m-assur" value="0" placeholder="0" oninput="calcMensualite()">
+        </div>
+      </div>
+      <div id="res-mensualite" style="display:none">
+        <div class="result-box">
+          <div class="result-label">Mensualité hors assurance</div>
+          <div class="result-big" id="r-mens"></div>
+          <div class="result-sub" id="r-mens-sub"></div>
+          <div class="result-grid">
+            <div class="result-item"><div class="ri-label">Coût total crédit</div><div class="ri-val" id="r-cout-total"></div></div>
+            <div class="result-item"><div class="ri-label">Dont intérêts</div><div class="ri-val accent" id="r-interets"></div></div>
+            <div class="result-item"><div class="ri-label">Avec assurance</div><div class="ri-val" id="r-avec-assur"></div></div>
+            <div class="result-item"><div class="ri-label">Taux effectif global</div><div class="ri-val" id="r-teg"></div></div>
+          </div>
+        </div>
+        <div class="info-band mt-2">💡 Règle des 33 % : votre mensualité ne devrait pas dépasser un tiers de vos revenus nets mensuels.</div>
+      </div>
+    </div>
+
+    <!-- MODE : CAPACITÉ -->
+    <div id="fin-capacite" style="display:none">
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Capacité d'emprunt</div>
+        <div class="field">
+          <label>Revenus nets mensuels foyer (€)</label>
+          <input type="number" id="cap-revenus" value="3000" placeholder="3000" oninput="calcCapacite()">
+        </div>
+        <div class="field">
+          <label>Charges mensuelles existantes (€)</label>
+          <input type="number" id="cap-charges" value="0" placeholder="Crédits en cours…" oninput="calcCapacite()">
+        </div>
+        <div class="field">
+          <label>Taux d'endettement maximal (%)</label>
+          <select id="cap-taux-endt" onchange="calcCapacite()">
+            <option value="35">35 % (règle HCSF)</option>
+            <option value="33">33 % (banques classiques)</option>
+            <option value="40">40 % (investisseur, revenus locatifs)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Taux du prêt (%)</label>
+          <input type="number" id="cap-taux" value="3.5" step="0.05" oninput="calcCapacite()">
+        </div>
+        <div class="field">
+          <label>Durée souhaitée (années)</label>
+          <div class="slider-wrap">
+            <span class="slider-val" id="cap-duree-val">20 ans</span>
+            <input type="range" id="cap-duree" min="5" max="30" step="1" value="20" oninput="updCapDuree();calcCapacite()">
+          </div>
+        </div>
+        <div class="field">
+          <label>Apport personnel (€)</label>
+          <input type="number" id="cap-apport" value="0" placeholder="0" oninput="calcCapacite()">
+        </div>
+      </div>
+      <div id="res-capacite" style="display:none">
+        <div class="result-box">
+          <div class="result-label">Capacité d'emprunt</div>
+          <div class="result-big" id="r-cap"></div>
+          <div class="result-sub" id="r-cap-sub"></div>
+          <div class="result-grid">
+            <div class="result-item"><div class="ri-label">Mensualité max</div><div class="ri-val" id="r-cap-mens"></div></div>
+            <div class="result-item"><div class="ri-label">Budget total projet</div><div class="ri-val accent" id="r-cap-total"></div></div>
+            <div class="result-item"><div class="ri-label">Taux d'endettement actuel</div><div class="ri-val" id="r-cap-taux-act"></div></div>
+            <div class="result-item"><div class="ri-label">Reste à vivre/mois</div><div class="ri-val" id="r-cap-rav"></div></div>
+          </div>
+        </div>
+        <div class="info-band mt-2">🏦 <strong>Investisseur locatif :</strong> les banques prennent souvent 70 % des loyers perçus en revenus, ce qui améliore significativement votre taux d'endettement.</div>
+      </div>
+    </div>
+
+    <!-- MODE : TAUX -->
+    <div id="fin-taux" style="display:none">
+      <div class="card">
+        <div class="card-title"><span class="icon">📉</span> Trouver le taux</div>
+        <div class="field">
+          <label>Capital emprunté (€)</label>
+          <input type="number" id="tx-capital" value="150000" oninput="calcTaux()">
+        </div>
+        <div class="field">
+          <label>Mensualité souhaitée (€)</label>
+          <input type="number" id="tx-mensualite" value="850" oninput="calcTaux()">
+        </div>
+        <div class="field">
+          <label>Durée (années)</label>
+          <div class="slider-wrap">
+            <span class="slider-val" id="tx-duree-val">20 ans</span>
+            <input type="range" id="tx-duree" min="5" max="30" step="1" value="20" oninput="updTxDuree();calcTaux()">
+          </div>
+        </div>
+      </div>
+      <div id="res-taux" style="display:none">
+        <div class="result-box">
+          <div class="result-label">Taux annuel nécessaire</div>
+          <div class="result-big" id="r-taux"></div>
+          <div class="result-sub" id="r-taux-sub"></div>
+          <div class="result-grid">
+            <div class="result-item"><div class="ri-label">Taux mensuel</div><div class="ri-val" id="r-taux-mens"></div></div>
+            <div class="result-item"><div class="ri-label">Coût total intérêts</div><div class="ri-val accent" id="r-taux-cout"></div></div>
+          </div>
+        </div>
+        <div class="card mt-2" style="margin-top:14px">
+          <div class="card-title" style="margin-bottom:8px"><span class="icon">📊</span> Taux de marché actuels (indicatifs)</div>
+          <div style="font-size:11px;color:var(--grey-mid);margin-bottom:10px">Source : moyennes nationales constatées mars 2025</div>
+          <div id="taux-marche-table"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODE : AMORTISSEMENT -->
+    <div id="fin-amort" style="display:none">
+      <div class="card">
+        <div class="card-title"><span class="icon">📋</span> Tableau d'amortissement</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Capital (€)</label>
+            <input type="number" id="am-capital" value="150000" oninput="calcAmort()">
+          </div>
+          <div class="field">
+            <label>Taux annuel (%)</label>
+            <input type="number" id="am-taux" value="3.5" step="0.05" oninput="calcAmort()">
+          </div>
+        </div>
+        <div class="field">
+          <label>Durée (années)</label>
+          <div class="slider-wrap">
+            <span class="slider-val" id="am-duree-val">20 ans</span>
+            <input type="range" id="am-duree" min="5" max="30" step="1" value="20" oninput="updAmDuree();calcAmort()">
+          </div>
+        </div>
+        <div class="field">
+          <label>Afficher</label>
+          <select id="am-view" onchange="calcAmort()">
+            <option value="annuel">Vue annuelle</option>
+            <option value="mensuel">Vue mensuelle (6 premiers mois)</option>
+          </select>
+        </div>
+      </div>
+      <div id="res-amort" style="display:none">
+        <div class="result-box" style="margin-bottom:14px">
+          <div class="result-label">Mensualité</div>
+          <div class="result-big" id="am-mens" style="font-size:36px"></div>
+          <div class="result-grid">
+            <div class="result-item"><div class="ri-label">Total remboursé</div><div class="ri-val" id="am-total"></div></div>
+            <div class="result-item"><div class="ri-label">Total intérêts</div><div class="ri-val accent" id="am-interets"></div></div>
+          </div>
+        </div>
+        <div class="card" style="overflow-x:auto; padding:12px">
+          <div id="amort-table-wrap"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-simu" onclick="goTab('tab-simu')">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">Rendement</span>
+  </button>
+  <button class="nav-btn" id="nav-estim" onclick="goTab('tab-estim')">
+    <span class="nav-icon">🏡</span>
+    <span class="nav-label">Estimation</span>
+  </button>
+  <button class="nav-btn" id="nav-dvf" onclick="goTab('tab-dvf')">
+    <span class="nav-icon">📈</span>
+    <span class="nav-label">Marché</span>
+  </button>
+  <button class="nav-btn" id="nav-fin" onclick="goTab('tab-fin')">
+    <span class="nav-icon">🏦</span>
+    <span class="nav-label">Financement</span>
+  </button>
+  <button class="nav-btn" id="nav-calc" onclick="goTab('tab-calc')">
+    <span class="nav-icon">🔢</span>
+    <span class="nav-label">Calcul.</span>
+  </button>
+  <button class="nav-btn" id="nav-contact" onclick="goTab('tab-contact')">
+    <span class="nav-icon">📞</span>
+    <span class="nav-label">Contact</span>
+  </button>
+</nav>
+
+<script>
+// ─── NAVIGATION ───────────────────────────────
+const tabs = ['simu','estim','dvf','contact','calc','fin'];
+function goTab(id) {
+  tabs.forEach(t => {
+    document.getElementById('tab-'+t).classList.remove('active');
+    document.getElementById('nav-'+t).classList.remove('active');
+  });
+  const key = id.replace('tab-','');
+  document.getElementById(id).classList.add('active');
+  document.getElementById('nav-'+key).classList.add('active');
+  document.querySelector('.app-body').scrollTop = 0;
+  // auto-init
+  if (key === 'fin') { calcMensualite(); }
+  if (key === 'calc') { calcM2(); }
+}
+
+// ─── SLIDERS ──────────────────────────────────
+function initSlider(id, valId, fmt) {
+  const sl = document.getElementById(id);
+  const vl = document.getElementById(valId);
+  function upd() {
+    const pct = ((sl.value - sl.min) / (sl.max - sl.min)) * 100;
+    sl.style.setProperty('--pct', pct + '%');
+    vl.textContent = fmt(+sl.value);
+  }
+  sl.addEventListener('input', upd);
+  upd();
+}
+
+const fmtEur  = v => v.toLocaleString('fr-FR') + ' €';
+const fmtPct  = v => v + ' %';
+const fmtMois = v => v === 0 ? '0 (plein)' : v + ' mois/an';
+
+initSlider('sl-prix',    'val-prix',    fmtEur);
+initSlider('sl-notaire', 'val-notaire', fmtPct);
+initSlider('sl-travaux', 'val-travaux', fmtEur);
+initSlider('sl-loyer',   'val-loyer',   fmtEur);
+initSlider('sl-vacance', 'val-vacance', fmtMois);
+
+// ─── SIMULATEUR ───────────────────────────────
+function calculerRendement() {
+  const prix     = +document.getElementById('sl-prix').value;
+  const notairePct = +document.getElementById('sl-notaire').value / 100;
+  const travaux  = +document.getElementById('sl-travaux').value;
+  const loyer    = +document.getElementById('sl-loyer').value;
+  const vacance  = +document.getElementById('sl-vacance').value;
+  const tf       = +document.getElementById('inp-tf').value || 0;
+  const copro    = +document.getElementById('inp-copro').value || 0;
+  const assur    = +document.getElementById('inp-assurance').value || 0;
+  const gestion  = +document.getElementById('inp-gestion').value || 0;
+
+  const coutTotal   = prix * (1 + notairePct) + travaux;
+  const loyersAn    = loyer * (12 - vacance);
+  const chargesAn   = tf + copro + assur + gestion;
+  const brutPct     = (loyersAn / coutTotal) * 100;
+  const netPct      = ((loyersAn - chargesAn) / coutTotal) * 100;
+  const cashflow    = (loyersAn - chargesAn) / 12;
+
+  document.getElementById('r-cout').textContent       = coutTotal.toLocaleString('fr-FR') + ' €';
+  document.getElementById('r-loyers-an').textContent  = loyersAn.toLocaleString('fr-FR') + ' €';
+  document.getElementById('r-charges').textContent    = chargesAn.toLocaleString('fr-FR') + ' €';
+  document.getElementById('r-net').textContent        = netPct.toFixed(2) + ' %';
+  document.getElementById('r-brut').textContent       = brutPct.toFixed(2) + ' %';
+  document.getElementById('r-brut-sub').textContent   = `Cash-flow mensuel net : ${cashflow >= 0 ? '+' : ''}${Math.round(cashflow).toLocaleString('fr-FR')} €/mois`;
+
+  const gaugePct = Math.min((brutPct / 15) * 100, 100);
+  document.getElementById('r-gauge').style.width = gaugePct + '%';
+
+  let badges = '';
+  if (brutPct >= 8)  badges += '<span class="badge green">✅ Rendement attractif</span>';
+  if (brutPct >= 5 && brutPct < 8) badges += '<span class="badge">📊 Rendement correct</span>';
+  if (brutPct < 5)   badges += '<span class="badge red">⚠️ Rendement faible</span>';
+  if (cashflow > 0)  badges += '<span class="badge green">💚 Cash-flow positif</span>';
+  if (cashflow < 0)  badges += '<span class="badge red">⚠️ Effort d\'épargne</span>';
+  if (netPct >= 6)   badges += '<span class="badge green">🏆 Nette excellente</span>';
+  document.getElementById('r-badges').innerHTML = badges;
+
+  document.getElementById('result-simu').style.display = 'block';
+  document.getElementById('result-simu').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ─── ESTIMATION ───────────────────────────────
+const prixBase = {
+  lens: { appart: 1350, maison: 1550, immeuble: 950, local: 800 },
+  liévin: { appart: 1200, maison: 1400, immeuble: 850, local: 700 },
+  'hénin-beaumont': { appart: 1250, maison: 1450, immeuble: 900, local: 750 },
+  arras: { appart: 1900, maison: 2200, immeuble: 1200, local: 1100 },
+  béthune: { appart: 1500, maison: 1700, immeuble: 1000, local: 850 },
+  bruay: { appart: 1100, maison: 1300, immeuble: 800, local: 650 },
+  carvin: { appart: 1400, maison: 1600, immeuble: 950, local: 800 },
+  sallaumines: { appart: 1100, maison: 1300, immeuble: 780, local: 650 },
+  noyelles: { appart: 1100, maison: 1250, immeuble: 750, local: 600 },
+  autre: { appart: 1250, maison: 1450, immeuble: 880, local: 730 }
+};
+const coefEtat = { top: 1.15, bon: 1.02, moyen: 0.92, travaux: 0.75 };
+const coefPer  = { recent: 1.1, '70-90': 0.98, '50-70': 0.93, avant50: 0.90 };
+
+function estimerBien() {
+  const ville   = document.getElementById('est-ville').value;
+  const type    = document.getElementById('est-type').value;
+  const surface = +document.getElementById('est-surface').value || 80;
+  const etat    = document.getElementById('est-etat').value;
+  const periode = document.getElementById('est-periode').value;
+  const loyer   = +document.getElementById('est-loyer').value || 0;
+
+  const base = (prixBase[ville] || prixBase['autre'])[type] || 1200;
+  const pm2  = base * coefEtat[etat] * coefPer[periode];
+  const mid  = pm2 * surface;
+  const bas  = mid * 0.88;
+  const haut = mid * 1.12;
+
+  const rdt = loyer > 0 ? ((loyer * 12) / mid * 100).toFixed(1) + ' %' : '–';
+
+  document.getElementById('est-val-mid').textContent  = Math.round(mid).toLocaleString('fr-FR') + ' €';
+  document.getElementById('est-val-range').textContent = 'Fourchette marché locale';
+  document.getElementById('est-bas').textContent  = Math.round(bas).toLocaleString('fr-FR') + ' €';
+  document.getElementById('est-haut').textContent = Math.round(haut).toLocaleString('fr-FR') + ' €';
+  document.getElementById('est-m2').textContent   = Math.round(pm2).toLocaleString('fr-FR') + ' €/m²';
+  document.getElementById('est-rdt').textContent  = rdt;
+  document.getElementById('result-estim').style.display = 'block';
+  document.getElementById('result-estim').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ─── DVF / DONNÉES MARCHÉ ─────────────────────
+const dvfData = {
+  lens: [
+    { label:'Appartement', val:'1 250 – 1 500 €/m²', trend:'+2.1%', color:'green' },
+    { label:'Maison', val:'1 450 – 1 700 €/m²', trend:'+1.8%', color:'green' },
+    { label:'Immeuble de rapport', val:'850 – 1 100 €/m²', trend:'+3.2%', color:'green' },
+    { label:'Local commercial', val:'700 – 950 €/m²', trend:'stable', color:'' },
+  ],
+  liévin: [
+    { label:'Appartement', val:'1 100 – 1 350 €/m²', trend:'+1.5%', color:'green' },
+    { label:'Maison', val:'1 300 – 1 550 €/m²', trend:'+1.2%', color:'green' },
+    { label:'Immeuble de rapport', val:'750 – 950 €/m²', trend:'+2.0%', color:'green' },
+    { label:'Local commercial', val:'600 – 800 €/m²', trend:'stable', color:'' },
+  ],
+  arras: [
+    { label:'Appartement', val:'1 750 – 2 100 €/m²', trend:'+2.8%', color:'green' },
+    { label:'Maison', val:'2 000 – 2 500 €/m²', trend:'+3.1%', color:'green' },
+    { label:'Immeuble de rapport', val:'1 100 – 1 350 €/m²', trend:'+2.5%', color:'green' },
+    { label:'Local commercial', val:'950 – 1 250 €/m²', trend:'+1.0%', color:'green' },
+  ],
+  'hénin-beaumont': [
+    { label:'Appartement', val:'1 150 – 1 400 €/m²', trend:'+1.8%', color:'green' },
+    { label:'Maison', val:'1 350 – 1 600 €/m²', trend:'+1.5%', color:'green' },
+    { label:'Immeuble de rapport', val:'800 – 1 000 €/m²', trend:'+2.2%', color:'green' },
+    { label:'Local commercial', val:'650 – 850 €/m²', trend:'stable', color:'' },
+  ],
+  béthune: [
+    { label:'Appartement', val:'1 400 – 1 650 €/m²', trend:'+2.0%', color:'green' },
+    { label:'Maison', val:'1 600 – 1 900 €/m²', trend:'+1.9%', color:'green' },
+    { label:'Immeuble de rapport', val:'900 – 1 100 €/m²', trend:'+2.4%', color:'green' },
+    { label:'Local commercial', val:'750 – 950 €/m²', trend:'stable', color:'' },
+  ],
+  bruay: [
+    { label:'Appartement', val:'1 000 – 1 250 €/m²', trend:'+1.0%', color:'green' },
+    { label:'Maison', val:'1 200 – 1 450 €/m²', trend:'+0.8%', color:'green' },
+    { label:'Immeuble de rapport', val:'700 – 900 €/m²', trend:'stable', color:'' },
+    { label:'Local commercial', val:'550 – 750 €/m²', trend:'stable', color:'' },
+  ],
+  carvin: [
+    { label:'Appartement', val:'1 300 – 1 550 €/m²', trend:'+1.6%', color:'green' },
+    { label:'Maison', val:'1 500 – 1 750 €/m²', trend:'+1.4%', color:'green' },
+    { label:'Immeuble de rapport', val:'850 – 1 050 €/m²', trend:'+2.0%', color:'green' },
+    { label:'Local commercial', val:'700 – 900 €/m²', trend:'stable', color:'' },
+  ],
+};
+
+let currentZone = 'lens';
+function selectZone(el, zone) {
+  document.querySelectorAll('.zone-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentZone = zone;
+  renderDVF(zone);
+}
+function renderDVF(zone) {
+  const data = dvfData[zone] || dvfData['lens'];
+  const label = zone.charAt(0).toUpperCase() + zone.slice(1);
+  document.getElementById('dvf-ville-label').textContent = '– ' + label;
+  let html = '';
+  data.forEach(item => {
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #F0EDE8">
+      <div>
+        <div style="font-weight:600;font-size:13px">${item.label}</div>
+        <div style="font-size:12px;color:#6B6B6B;margin-top:2px">${item.val}</div>
+      </div>
+      <span class="badge ${item.color}">${item.trend}</span>
+    </div>`;
+  });
+  html += `<p style="font-size:10px;color:#AAAA9E;margin-top:10px">Sources : DVF Étalab, Notaires de France, MeilleursAgents – Données indicatives 2024-2025</p>`;
+  document.getElementById('dvf-data').innerHTML = html;
+}
+renderDVF('lens');
+
+// ─── FORMULAIRE CONTACT ───────────────────────
+function envoyerFormulaire() {
+  const nom = document.getElementById('f-nom').value.trim();
+  const tel = document.getElementById('f-tel').value.trim();
+  if (!nom || !tel) {
+    alert('Merci de renseigner votre nom et votre téléphone.');
+    return;
+  }
+  // EmailJS integration
+  const sujet   = document.getElementById('f-sujet').value;
+  const email   = document.getElementById('f-email').value.trim();
+  const msg     = document.getElementById('f-msg').value.trim();
+  const subjectLabels = {
+    conseil:'Conseil en investissement', estimation:'Estimation de bien',
+    achat:'Recherche d\'un immeuble', vente:'Vendre mon bien', autre:'Autre'
+  };
+  // Simuler l'envoi (remplacer par EmailJS si configuré)
+  const mailto = `mailto:contact@flstrategimmo.com?subject=Demande%20:%20${encodeURIComponent(subjectLabels[sujet])}&body=Nom%20:%20${encodeURIComponent(nom)}%0ATél%20:%20${encodeURIComponent(tel)}%0AEmail%20:%20${encodeURIComponent(email)}%0A%0AMessage%20:%0A${encodeURIComponent(msg)}`;
+  window.location.href = mailto;
+  document.getElementById('form-card').style.display = 'none';
+  document.getElementById('form-sent').style.display = 'block';
+}
+function resetForm() {
+  document.getElementById('form-card').style.display = 'block';
+  document.getElementById('form-sent').style.display = 'none';
+  ['f-nom','f-tel','f-email','f-msg'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ─── CALCULATRICE STANDARD ────────────────────
+let calcCurrent = '0', calcPrev = '', calcOperator = null, calcNewNum = false;
+function setCalcMode(mode, el) {
+  document.querySelectorAll('.calc-mode-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['std','tva','notaire','m2'].forEach(m => {
+    const el = document.getElementById('calc-'+m+'-pad');
+    if (el) el.style.display = m === mode ? 'block' : 'none';
+  });
+}
+function updDisplay() {
+  const d = document.getElementById('calc-display');
+  const h = document.getElementById('calc-history');
+  const num = parseFloat(calcCurrent);
+  d.textContent = isNaN(num) ? calcCurrent : num.toLocaleString('fr-FR', {maximumFractionDigits: 10});
+  if (calcPrev && calcOperator) {
+    const ops = {'+':'+','−':'-','×':'×','÷':'÷','*':'×','/':'÷','-':'−'};
+    h.textContent = parseFloat(calcPrev).toLocaleString('fr-FR') + ' ' + (ops[calcOperator]||calcOperator);
+  } else {
+    h.textContent = '';
+  }
+}
+function calcNum(n) {
+  if (calcNewNum) { calcCurrent = n === '.' ? '0.' : n; calcNewNum = false; }
+  else {
+    if (n === '.' && calcCurrent.includes('.')) return;
+    calcCurrent = calcCurrent === '0' && n !== '.' ? n : calcCurrent + n;
+  }
+  updDisplay();
+}
+function calcOp(op) {
+  if (calcOperator && !calcNewNum) calcEq();
+  calcPrev = calcCurrent; calcOperator = op; calcNewNum = true; updDisplay();
+}
+function calcEq() {
+  if (!calcOperator || !calcPrev) return;
+  const a = parseFloat(calcPrev), b = parseFloat(calcCurrent);
+  let res;
+  if (calcOperator === '+') res = a + b;
+  else if (calcOperator === '-') res = a - b;
+  else if (calcOperator === '*') res = a * b;
+  else if (calcOperator === '/') res = b !== 0 ? a / b : 'Erreur';
+  calcCurrent = res.toString(); calcPrev = ''; calcOperator = null; calcNewNum = true;
+  updDisplay();
+}
+function calcFn(fn) {
+  const v = parseFloat(calcCurrent);
+  if (fn === 'clear') { calcCurrent = '0'; calcPrev = ''; calcOperator = null; calcNewNum = false; }
+  if (fn === 'sign') calcCurrent = (-v).toString();
+  if (fn === 'pct') calcCurrent = (v / 100).toString();
+  updDisplay();
+}
+
+// ─── TVA ──────────────────────────────────────
+function calcTVA() {
+  const ht = parseFloat(document.getElementById('tva-ht').value) || 0;
+  const taux = parseFloat(document.getElementById('tva-taux').value) / 100;
+  if (!ht) { document.getElementById('tva-result').style.display='none'; return; }
+  const tva = ht * taux, ttc = ht + tva;
+  document.getElementById('tva-montant').textContent = Math.round(tva).toLocaleString('fr-FR') + ' €';
+  document.getElementById('tva-ttc').textContent = Math.round(ttc).toLocaleString('fr-FR') + ' €';
+  document.getElementById('tva-result').style.display = 'block';
+}
+function calcTVAInv() {
+  const ttc = parseFloat(document.getElementById('tva-ttc-in').value) || 0;
+  const taux = parseFloat(document.getElementById('tva-taux').value) / 100;
+  if (!ttc) { document.getElementById('tva-inv-result').style.display='none'; return; }
+  const ht = ttc / (1 + taux), tva = ttc - ht;
+  document.getElementById('tva-ht-out').textContent = Math.round(ht).toLocaleString('fr-FR') + ' €';
+  document.getElementById('tva-déduite').textContent = Math.round(tva).toLocaleString('fr-FR') + ' €';
+  document.getElementById('tva-inv-result').style.display = 'block';
+}
+
+// ─── NOTAIRE ──────────────────────────────────
+function calcNotaire() {
+  const prix = parseFloat(document.getElementById('not-prix').value) || 0;
+  if (!prix) { document.getElementById('not-result').style.display='none'; return; }
+  const type = document.getElementById('not-type').value;
+  const taux = type === 'neuf' ? 0.025 : 0.075;
+  const frais = prix * taux;
+  document.getElementById('not-frais').textContent = Math.round(frais).toLocaleString('fr-FR') + ' €';
+  document.getElementById('not-taux').textContent = (taux * 100).toFixed(1) + ' %';
+  document.getElementById('not-total').textContent = Math.round(prix + frais).toLocaleString('fr-FR') + ' €';
+  document.getElementById('not-result').style.display = 'block';
+}
+
+// ─── PRIX M² ──────────────────────────────────
+function calcM2() {
+  const prix = parseFloat(document.getElementById('m2-prix').value) || 0;
+  const surf = parseFloat(document.getElementById('m2-surf').value) || 0;
+  if (!prix || !surf) { document.getElementById('m2-result').style.display='none'; return; }
+  document.getElementById('m2-val').textContent = Math.round(prix/surf).toLocaleString('fr-FR') + ' €/m²';
+  document.getElementById('m2-result').style.display = 'block';
+}
+function calcM2Rev() {
+  const pm2 = parseFloat(document.getElementById('m2-pm2').value) || 0;
+  const surf = parseFloat(document.getElementById('m2-surf2').value) || 0;
+  if (!pm2 || !surf) { document.getElementById('m2-rev-result').style.display='none'; return; }
+  document.getElementById('m2-prix-calc').textContent = Math.round(pm2*surf).toLocaleString('fr-FR') + ' €';
+  document.getElementById('m2-rev-result').style.display = 'block';
+}
+
+// ─── FINANCEMENT – helpers ─────────────────────
+function mensualiteCredit(capital, tauxAnnuel, dureeAns) {
+  if (tauxAnnuel === 0) return capital / (dureeAns * 12);
+  const r = tauxAnnuel / 100 / 12, n = dureeAns * 12;
+  return capital * (r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
+}
+function setFinMode(mode, el) {
+  document.querySelectorAll('.fin-mode-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['mensualite','capacite','taux','amort'].forEach(m => {
+    document.getElementById('fin-'+m).style.display = m === mode ? 'block' : 'none';
+  });
+  if (mode === 'mensualite') calcMensualite();
+  if (mode === 'capacite') calcCapacite();
+  if (mode === 'taux') calcTaux();
+  if (mode === 'amort') calcAmort();
+}
+function updDuree() {
+  const v = document.getElementById('m-duree').value;
+  document.getElementById('m-duree-val').textContent = v + ' ans';
+  const pct = ((v-5)/(30-5))*100;
+  document.getElementById('m-duree').style.setProperty('--pct', pct+'%');
+}
+function updCapDuree() {
+  const v = document.getElementById('cap-duree').value;
+  document.getElementById('cap-duree-val').textContent = v + ' ans';
+  const pct = ((v-5)/(30-5))*100;
+  document.getElementById('cap-duree').style.setProperty('--pct', pct+'%');
+}
+function updTxDuree() {
+  const v = document.getElementById('tx-duree').value;
+  document.getElementById('tx-duree-val').textContent = v + ' ans';
+  const pct = ((v-5)/(30-5))*100;
+  document.getElementById('tx-duree').style.setProperty('--pct', pct+'%');
+}
+function updAmDuree() {
+  const v = document.getElementById('am-duree').value;
+  document.getElementById('am-duree-val').textContent = v + ' ans';
+  const pct = ((v-5)/(30-5))*100;
+  document.getElementById('am-duree').style.setProperty('--pct', pct+'%');
+}
+// Init sliders financement
+['m-duree','cap-duree','tx-duree','am-duree'].forEach(id => {
+  const el = document.getElementById(id);
+  const v = el.value; const pct = ((v-5)/(30-5))*100;
+  el.style.setProperty('--pct', pct+'%');
+});
+
+// ─── MENSUALITÉ ───────────────────────────────
+function calcMensualite() {
+  const capital = parseFloat(document.getElementById('m-capital').value) || 0;
+  const taux    = parseFloat(document.getElementById('m-taux').value) || 0;
+  const duree   = parseInt(document.getElementById('m-duree').value) || 20;
+  const assur   = parseFloat(document.getElementById('m-assur').value) || 0;
+  if (!capital) { document.getElementById('res-mensualite').style.display='none'; return; }
+  const mens = mensualiteCredit(capital, taux, duree);
+  const total = mens * duree * 12;
+  const interets = total - capital;
+  const avecAssur = mens + assur;
+  const tauxMens = taux/100/12;
+  document.getElementById('r-mens').textContent = Math.round(mens).toLocaleString('fr-FR') + ' €/mois';
+  document.getElementById('r-mens-sub').textContent = `Sur ${duree} ans · taux ${taux}%`;
+  document.getElementById('r-cout-total').textContent = Math.round(total).toLocaleString('fr-FR') + ' €';
+  document.getElementById('r-interets').textContent = Math.round(interets).toLocaleString('fr-FR') + ' €';
+  document.getElementById('r-avec-assur').textContent = Math.round(avecAssur).toLocaleString('fr-FR') + ' €/mois';
+  document.getElementById('r-teg').textContent = taux.toFixed(2) + ' %';
+  document.getElementById('res-mensualite').style.display = 'block';
+}
+
+// ─── CAPACITÉ D'EMPRUNT ───────────────────────
+function calcCapacite() {
+  const revenus  = parseFloat(document.getElementById('cap-revenus').value) || 0;
+  const charges  = parseFloat(document.getElementById('cap-charges').value) || 0;
+  const tauxEndt = parseFloat(document.getElementById('cap-taux-endt').value) / 100;
+  const taux     = parseFloat(document.getElementById('cap-taux').value) || 0;
+  const duree    = parseInt(document.getElementById('cap-duree').value) || 20;
+  const apport   = parseFloat(document.getElementById('cap-apport').value) || 0;
+  if (!revenus) { document.getElementById('res-capacite').style.display='none'; return; }
+  const mensMax = revenus * tauxEndt - charges;
+  if (mensMax <= 0) { document.getElementById('r-cap').textContent = '0 €'; document.getElementById('res-capacite').style.display='block'; return; }
+  const r = taux/100/12, n = duree*12;
+  const capital = taux === 0 ? mensMax * n : mensMax * (Math.pow(1+r,n)-1) / (r * Math.pow(1+r,n));
+  const budgetTotal = capital + apport;
+  const tauxActuel = charges / revenus * 100;
+  const rav = revenus - charges - mensMax;
+  document.getElementById('r-cap').textContent = Math.round(capital).toLocaleString('fr-FR') + ' €';
+  document.getElementById('r-cap-sub').textContent = `Mensualité max : ${Math.round(mensMax).toLocaleString('fr-FR')} €`;
+  document.getElementById('r-cap-mens').textContent = Math.round(mensMax).toLocaleString('fr-FR') + ' €';
+  document.getElementById('r-cap-total').textContent = Math.round(budgetTotal).toLocaleString('fr-FR') + ' €';
+  document.getElementById('r-cap-taux-act').textContent = tauxActuel.toFixed(1) + ' %';
+  document.getElementById('r-cap-rav').textContent = Math.round(rav).toLocaleString('fr-FR') + ' €';
+  document.getElementById('res-capacite').style.display = 'block';
+}
+
+// ─── TROUVER LE TAUX ──────────────────────────
+function calcTaux() {
+  const capital = parseFloat(document.getElementById('tx-capital').value) || 0;
+  const mens    = parseFloat(document.getElementById('tx-mensualite').value) || 0;
+  const duree   = parseInt(document.getElementById('tx-duree').value) || 20;
+  if (!capital || !mens) { document.getElementById('res-taux').style.display='none'; return; }
+  const n = duree * 12;
+  // Dichotomie pour trouver le taux
+  let lo = 0, hi = 1, r;
+  for (let i = 0; i < 200; i++) {
+    r = (lo + hi) / 2;
+    const m = capital * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
+    if (m > mens) hi = r; else lo = r;
+  }
+  const tauxAn = r * 12 * 100;
+  const totalPaye = mens * n;
+  const interets = totalPaye - capital;
+  document.getElementById('r-taux').textContent = tauxAn.toFixed(2) + ' %';
+  document.getElementById('r-taux-sub').textContent = `Pour ${Math.round(mens).toLocaleString('fr-FR')} €/mois sur ${duree} ans`;
+  document.getElementById('r-taux-mens').textContent = (r*100).toFixed(4) + ' %/mois';
+  document.getElementById('r-taux-cout').textContent = Math.round(interets).toLocaleString('fr-FR') + ' €';
+  document.getElementById('res-taux').style.display = 'block';
+  // Taux marché
+  const tauxMarche = [
+    { duree:'10 ans', taux:'3.15 %', note:'Très court' },
+    { duree:'15 ans', taux:'3.35 %', note:'Court' },
+    { duree:'20 ans', taux:'3.55 %', note:'Standard' },
+    { duree:'25 ans', taux:'3.75 %', note:'Long' },
+    { duree:'30 ans', taux:'4.00 %', note:'Maximum' },
+  ];
+  let html = '';
+  tauxMarche.forEach(t => {
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F0EDE8;">
+      <div style="font-weight:600;font-size:13px">${t.duree}</div>
+      <div style="font-size:11px;color:var(--grey-mid)">${t.note}</div>
+      <div style="font-size:15px;font-weight:700;color:var(--orange)">${t.taux}</div>
+    </div>`;
+  });
+  document.getElementById('taux-marche-table').innerHTML = html;
+}
+
+// ─── TABLEAU D'AMORTISSEMENT ──────────────────
+function calcAmort() {
+  const capital = parseFloat(document.getElementById('am-capital').value) || 0;
+  const taux    = parseFloat(document.getElementById('am-taux').value) || 0;
+  const duree   = parseInt(document.getElementById('am-duree').value) || 20;
+  if (!capital) { document.getElementById('res-amort').style.display='none'; return; }
+  const r = taux/100/12, n = duree*12;
+  const mens = mensualiteCredit(capital, taux, duree);
+  const total = mens * n;
+  const interets = total - capital;
+  document.getElementById('am-mens').textContent = Math.round(mens).toLocaleString('fr-FR') + ' €/mois';
+  document.getElementById('am-total').textContent = Math.round(total).toLocaleString('fr-FR') + ' €';
+  document.getElementById('am-interets').textContent = Math.round(interets).toLocaleString('fr-FR') + ' €';
+  // Tableau
+  const view = document.getElementById('am-view').value;
+  let html = '<table class="amort-table"><thead><tr><th>Période</th><th>Mensualité</th><th>Capital</th><th>Intérêts</th><th>Restant dû</th></tr></thead><tbody>';
+  let restant = capital;
+  if (view === 'annuel') {
+    for (let y = 1; y <= duree; y++) {
+      let capAn = 0, intAn = 0;
+      for (let m = 0; m < 12; m++) {
+        const int = restant * r, cap = mens - int;
+        intAn += int; capAn += cap; restant -= cap;
+      }
+      html += `<tr><td>An ${y}</td><td>${Math.round(mens*12).toLocaleString('fr-FR')} €</td><td>${Math.round(capAn).toLocaleString('fr-FR')} €</td><td>${Math.round(intAn).toLocaleString('fr-FR')} €</td><td>${Math.max(0,Math.round(restant)).toLocaleString('fr-FR')} €</td></tr>`;
+    }
+  } else {
+    for (let m = 1; m <= Math.min(6, n); m++) {
+      const int = restant * r, cap = mens - int;
+      restant -= cap;
+      html += `<tr><td>Mois ${m}</td><td>${Math.round(mens).toLocaleString('fr-FR')} €</td><td>${Math.round(cap).toLocaleString('fr-FR')} €</td><td>${Math.round(int).toLocaleString('fr-FR')} €</td><td>${Math.max(0,Math.round(restant)).toLocaleString('fr-FR')} €</td></tr>`;
+    }
+  }
+  html += '</tbody></table>';
+  document.getElementById('amort-table-wrap').innerHTML = html;
+  document.getElementById('res-amort').style.display = 'block';
+}
+// Auto-init financement au chargement
+calcMensualite();
+
+// ─── PWA INSTALL ──────────────────────────────
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-banner').style.display = 'flex';
+});
+document.getElementById('install-btn').addEventListener('click', () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      document.getElementById('install-banner').style.display = 'none';
+    });
+  }
+});
+document.getElementById('install-close').addEventListener('click', () => {
+  document.getElementById('install-banner').style.display = 'none';
+});
+
+// ─── SERVICE WORKER (PWA) ─────────────────────
+if ('serviceWorker' in navigator) {
+  const swCode = `
+self.addEventListener('install', e => self.skipWaiting());
+self.addEventListener('activate', e => e.waitUntil(clients.claim()));
+self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Hors ligne'))));
+`;
+  const blob = new Blob([swCode], {type:'text/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(() => {});
+}
+</script>
+</body>
+</html>
